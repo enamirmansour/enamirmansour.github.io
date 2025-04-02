@@ -5,6 +5,8 @@ body {
     max-width: 600px;
     margin: 0 auto;
     padding: 20px;
+    background-color: #fff;
+    color: #000;
 }
 
 .input-section {
@@ -108,3 +110,86 @@ body {
     font-size: 16px;
     margin: 0 10px;
 }
+/* تم تیره */
+body.dark-theme {
+    background-color: #333;
+    color: #fff;
+}
+
+.dark-theme #taskList li {
+    background-color: #444;
+}
+
+.dark-theme #addButton {
+    background-color: #388E3C; /* سبز تیره‌تر */
+}
+
+.dark-theme #addButton:hover {
+    background-color: #2E7D32;
+}
+
+.dark-theme .editButton {
+    background-color: #1976D2; /* آبی تیره‌تر */
+}
+
+.dark-theme .editButton:hover {
+    background-color: #1565C0;
+}
+
+.dark-theme .deleteButton {
+    background-color: #D32F2F; /* قرمز تیره‌تر */
+}
+
+.dark-theme .deleteButton:hover {
+    background-color: #C62828;
+}
+
+.dark-theme .saveButton {
+    background-color: #388E3C;
+}
+
+.dark-theme .saveButton:hover {
+    background-color: #2E7D32;
+}
+
+/* استایل دکمه تغییر تم */
+#themeToggle {
+    padding: 10px 20px;
+    font-size: 16px;
+    background-color: #607D8B; /* خاکستری-آبی */
+    color: white;
+    border: none;
+    cursor: pointer;
+    margin-bottom: 20px;
+}
+
+#themeToggle:hover {
+    background-color: #546E7A;
+}
+/* استایل هدر برای دکمه تم */
+.header {
+    display: flex;
+    justify-content: flex-end; /* سمت راست */
+    direction: ltr; /*مطمئن میشه جهت از راست به چپ باشه*/
+    margin-bottom: 20px;
+   }
+   
+   /* آپدیت استایل دکمه تغییر تم */
+   #themeToggle {
+    padding: 8px 12px;
+    font-size: 20px; /* اندازه آیکون */
+    background-color: #607D8B;
+    color: white;
+    border: none;
+    border-radius: 50%; /* دایره‌ای کردن دکمه */
+    cursor: pointer;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+   }
+   
+   #themeToggle:hover {
+    background-color: #546E7A;
+   }
