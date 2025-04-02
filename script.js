@@ -1,6 +1,7 @@
 const taskInput = document.getElementById("taskInput");
 const addButton = document.getElementById("addButton");
 const taskList = document.getElementById("taskList");
+const taskCategory = document.getElementById("taskCategory");
 
 // تابع برای بارگذاری تسک‌ها از localStorage
 function loadTasks() {
@@ -9,7 +10,7 @@ function loadTasks() {
         const li = document.createElement("li");
         li.innerHTML = `
             <input type="checkbox" class="taskCheckbox" ${task.completed ? "checked" : ""}>
-            <span class="${task.completed ? "completed" : ""}">${task.text}</span>
+            <span class="${task.completed ? "completed" : ""}">${task.text} (${task.category})</span>
             <button class="editButton">ویرایش</button>
             <button class="deleteButton">حذف</button>
         `;
@@ -21,9 +22,12 @@ function loadTasks() {
 function saveTasks() {
     const tasks = [];
     taskList.querySelectorAll("li").forEach(li => {
-        const text = li.querySelector("span").textContent;
+        const span = li.querySelector("span");
+        const textWithCategory = span.textContent.match(/^(.*) \((.*)\)$/);
+        const text = textWithCategory ? textWithCategory[1] : span.textContent;
+        const category = textWithCategory ? textWithCategory[2] : "کار";
         const completed = li.querySelector(".taskCheckbox").checked;
-        tasks.push({ text, completed });
+        tasks.push({ text, category, completed });
     });
     localStorage.setItem("tasks", JSON.stringify(tasks));
 }
@@ -34,6 +38,7 @@ loadTasks();
 // وقتی دکمه "اضافه کن" کلیک می‌شه
 addButton.addEventListener("click", function() {
     const taskText = taskInput.value;
+    const category = taskCategory.value;
 
     if (taskText.trim() === "") {
         alert("لطفاً یه تسک وارد کن!");
@@ -43,7 +48,7 @@ addButton.addEventListener("click", function() {
     const li = document.createElement("li");
     li.innerHTML = `
         <input type="checkbox" class="taskCheckbox">
-        <span>${taskText}</span>
+        <span>${taskText} (${category})</span>
         <button class="editButton">ویرایش</button>
         <button class="deleteButton">حذف</button>
     `;
@@ -69,28 +74,36 @@ taskList.addEventListener("click", function(event) {
         saveTasks();
     } else if (event.target.className === "editButton") {
         const span = li.querySelector("span");
-        const currentText = span.textContent;
+        const currentTextWithCategory = span.textContent.match(/^(.*) \((.*)\)$/);
+        const currentText = currentTextWithCategory ? currentTextWithCategory[1] : span.textContent;
+        const currentCategory = currentTextWithCategory ? currentTextWithCategory[2] : "کار";
 
-        // جایگزین کردن span با input برای ویرایش
         li.innerHTML = `
             <input type="checkbox" class="taskCheckbox" ${li.querySelector(".taskCheckbox").checked ? "checked" : ""}>
             <input type="text" class="editInput" value="${currentText}">
+            <select class="editCategory">
+                <option value="کار" ${currentCategory === "کار" ? "selected" : ""}>کار</option>
+                <option value="شخصی" ${currentCategory === "شخصی" ? "selected" : ""}>شخصی</option>
+                <option value="فوری" ${currentCategory === "فوری" ? "selected" : ""}>فوری</option>
+                <option value="تحصیل" ${currentCategory === "تحصیل" ? "selected" : ""}>تحصیل</option>
+            </select>
             <button class="saveButton">ذخیره</button>
             <button class="deleteButton">حذف</button>
         `;
     } else if (event.target.className === "saveButton") {
         const editInput = li.querySelector(".editInput");
+        const editCategory = li.querySelector(".editCategory");
         const newText = editInput.value;
+        const newCategory = editCategory.value;
 
         if (newText.trim() === "") {
             alert("تسک نمی‌تونه خالی باشه!");
             return;
         }
 
-        // برگرداندن به حالت عادی با متن جدید
         li.innerHTML = `
             <input type="checkbox" class="taskCheckbox" ${li.querySelector(".taskCheckbox").checked ? "checked" : ""}>
-            <span>${newText}</span>
+            <span>${newText} (${newCategory})</span>
             <button class="editButton">ویرایش</button>
             <button class="deleteButton">حذف</button>
         `;

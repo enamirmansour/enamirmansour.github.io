@@ -98,3 +98,13 @@ body {
 .saveButton:hover {
     background-color: #45a049;
 }
+#taskCategory {
+    padding: 10px;
+    font-size: 16px;
+    margin-left: 10px;
+}
+.editCategory {
+    padding: 5px;
+    font-size: 16px;
+    margin: 0 10px;
+}
