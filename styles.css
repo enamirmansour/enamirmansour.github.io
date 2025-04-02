@@ -68,3 +68,33 @@ body {
     text-decoration: line-through;
     color: #888;
 }
+.editButton {
+    padding: 5px 10px;
+    background-color: #2196F3; /* آبی */
+    color: white;
+    border: none;
+    cursor: pointer;
+    margin-left: 5px; /* فاصله از دکمه حذف */
+}
+
+.editButton:hover {
+    background-color: #1976D2;
+}
+.editInput {
+    padding: 5px;
+    font-size: 16px;
+    flex-grow: 1;
+    margin: 0 10px;
+}
+
+.saveButton {
+    padding: 5px 10px;
+    background-color: #4CAF50; /* سبز */
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+.saveButton:hover {
+    background-color: #45a049;
+}

@@ -10,6 +10,7 @@ function loadTasks() {
         li.innerHTML = `
             <input type="checkbox" class="taskCheckbox" ${task.completed ? "checked" : ""}>
             <span class="${task.completed ? "completed" : ""}">${task.text}</span>
+            <button class="editButton">ویرایش</button>
             <button class="deleteButton">حذف</button>
         `;
         taskList.appendChild(li);
@@ -43,19 +44,21 @@ addButton.addEventListener("click", function() {
     li.innerHTML = `
         <input type="checkbox" class="taskCheckbox">
         <span>${taskText}</span>
+        <button class="editButton">ویرایش</button>
         <button class="deleteButton">حذف</button>
     `;
     taskList.appendChild(li);
     taskInput.value = "";
-    saveTasks(); // ذخیره بعد از اضافه کردن
+    saveTasks();
 });
 
-// مدیریت کلیک روی چک‌باکس و دکمه حذف
+// مدیریت کلیک روی چک‌باکس، حذف و ویرایش
 taskList.addEventListener("click", function(event) {
+    const li = event.target.parentElement;
+
     if (event.target.className === "deleteButton") {
-        const li = event.target.parentElement;
         taskList.removeChild(li);
-        saveTasks(); // ذخیره بعد از حذف
+        saveTasks();
     } else if (event.target.className === "taskCheckbox") {
         const span = event.target.nextElementSibling;
         if (event.target.checked) {
@@ -63,6 +66,37 @@ taskList.addEventListener("click", function(event) {
         } else {
             span.classList.remove("completed");
         }
-        saveTasks(); // ذخیره بعد از تغییر وضعیت
+        saveTasks();
+    } else if (event.target.className === "editButton") {
+        const span = li.querySelector("span");
+        const currentText = span.textContent;
+
+        // جایگزین کردن span با input برای ویرایش
+        li.innerHTML = `
+            <input type="checkbox" class="taskCheckbox" ${li.querySelector(".taskCheckbox").checked ? "checked" : ""}>
+            <input type="text" class="editInput" value="${currentText}">
+            <button class="saveButton">ذخیره</button>
+            <button class="deleteButton">حذف</button>
+        `;
+    } else if (event.target.className === "saveButton") {
+        const editInput = li.querySelector(".editInput");
+        const newText = editInput.value;
+
+        if (newText.trim() === "") {
+            alert("تسک نمی‌تونه خالی باشه!");
+            return;
+        }
+
+        // برگرداندن به حالت عادی با متن جدید
+        li.innerHTML = `
+            <input type="checkbox" class="taskCheckbox" ${li.querySelector(".taskCheckbox").checked ? "checked" : ""}>
+            <span>${newText}</span>
+            <button class="editButton">ویرایش</button>
+            <button class="deleteButton">حذف</button>
+        `;
+        if (li.querySelector(".taskCheckbox").checked) {
+            li.querySelector("span").classList.add("completed");
+        }
+        saveTasks();
     }
 });
